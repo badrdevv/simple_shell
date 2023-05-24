@@ -35,8 +35,8 @@ char *getenv_func(info_t *info, const char *na)
 		if (q && *q)
 			return (q);
 		node = node->next;
-		return (NULL);
 	}
+	return (NULL);
 }
 
 /**
@@ -55,7 +55,7 @@ int mysetenv_func(info_t *info)
 		puts_func("incorrect number of arguements\n");
 		return (1);
 	}
-	if (setenv_func(info, info->argv[1], info->argv[2]))
+	if (_setenv(info, info->argv[1], info->argv[2]))
 		return (0);
 	return (1);
 }
@@ -78,7 +78,7 @@ int unsetenv_func(info_t *info)
 		return (1);
 	}
 	for (a = 1; a <= info->argc; a++)
-		unsetenv_func(info, info->argv[a]);
+		_unsetenv(info, info->argv[a]);
 	return (0);
 }
 
@@ -96,7 +96,7 @@ int populate_env_list_func(info_t *info)
 	size_t a;
 
 	for (a = 0; environ[a]; a++)
-		add_note_and(&node, environ[a], 0);
+		add_node_end(&node, environ[a], 0);
 	info->env = node;
 	return (0);
 }
