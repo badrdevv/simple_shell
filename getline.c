@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * input_buf - buffers chained commands
- * @info: parameter struct
- * @buf: address of buffer
- * @len: address of len var
+ * input_buf - a function that buffer chained commands
+ * @info: the parameter structure
+ * @buf: the address of buffer
+ * @len: the address of len var
  *
- * Return: bytes read
+ * Return: the bytes are read
  */
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
@@ -45,10 +45,10 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 }
 
 /**
- * get_input - gets a line minus the newline
- * @info: parameter struct
+ * get_input - a function that get a line without the newline
+ * @info: the parameter struct
  *
- * Return: bytes read
+ * Return: bytes are read
  */
 ssize_t get_input(info_t *info)
 {
@@ -90,9 +90,9 @@ ssize_t get_input(info_t *info)
 }
 
 /**
- * read_buf - reads a buffer
- * @info: parameter struct
- * @buf: buffer
+ * read_buf - a function that read the buffer
+ * @info: the parameter struct
+ * @buf: the buffer
  * @i: size
  *
  * Return: r
@@ -110,44 +110,45 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 }
 
 /**
- * _getline - gets the next line of input from STDIN
- * @info: parameter struct
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
+ * _getline - a function that get the next line of
+ * input from standard input
+ * @info: the parameter structure
+ * @ptr: the address of pointer to buffer, preallocated or NULL
+ * @length: the size of preallocated buffer if not NULL
  *
- * Return: s
+ * Return: s (Success)
  */
 int _getline(info_t *info, char **ptr, size_t *length)
 {
 	static char buf[READ_BUF_SIZE];
-	static size_t i, len;
-	size_t k;
+	static size_t a, len;
+	size_t b;
 	ssize_t r = 0, s = 0;
 	char *p = NULL, *new_p = NULL, *c;
 
 	p = *ptr;
 	if (p && length)
 		s = *length;
-	if (i == len)
-		i = len = 0;
+	if (a == len)
+		a = len = 0;
 
 	r = read_buf(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = strchr_func(buf + i, '\n');
-	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = _realloc(p, s, s ? s + k : k + 1);
+	c = strchr_func(buf + a, '\n');
+	b = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + b : b + 1);
 	if (!new_p) /* MALLOC FAILURE! */
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		strncat_func(new_p, buf + i, k - i);
+		strncat_func(new_p, buf + a, b - a);
 	else
-		strncpy_func(new_p, buf + i, k - i + 1);
+		strncpy_func(new_p, buf + a, b - a + 1);
 
-	s += k - i;
-	i = k;
+	s += b - a;
+	a = b;
 	p = new_p;
 
 	if (length)
@@ -157,10 +158,10 @@ int _getline(info_t *info, char **ptr, size_t *length)
 }
 
 /**
- * sigintHandler - blocks ctrl-C
+ * sigintHandler - a function that block ctrl-C
  * @sig_num: the signal number
  *
- * Return: void
+ * Return: Void
  */
 void sigintHandler(__attribute__((unused))int sig_num)
 {

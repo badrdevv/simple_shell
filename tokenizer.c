@@ -1,61 +1,63 @@
 #include "shell.h"
 
 /**
- * **strtow - splits a string into words. Repeat delimiters are ignored
+ * **strtow - a function that split a string into words.
+ * and the repeat delimiters are absolutely ignored
  * @str: the input string
  * @d: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
+ * Return: a pointer to an array of strings.
+ * if there is a failure then NULL
  */
 
 char **strtow(char *str, char *d)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
+	int a, b, c, m, numwords = 0;
+	char **q;
 
 	if (str == NULL || str[0] == 0)
 		return (NULL);
 	if (!d)
 		d = " ";
-	for (i = 0; str[i] != '\0'; i++)
+	for (a = 0; str[a] != '\0'; a++)
 	{
-		if (!is_delim_func(str[i], d) &&
-		    (is_delim_func(str[i + 1], d) || !str[i + 1]))
+		if (!is_delim_func(str[a], d) &&
+		    (is_delim_func(str[a + 1], d) || !str[a + 1]))
 			numwords++;
 	}
 
 	if (numwords == 0)
 		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
+	q = malloc((1 + numwords) * sizeof(char *));
+	if (!q)
 		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
+	for (a = 0, b = 0; b < numwords; b++)
 	{
-		while (is_delim_func(str[i], d))
-			i++;
-		k = 0;
-		while (!is_delim_func(str[i + k], d) && str[i + k])
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
+		while (is_delim_func(str[a], d))
+			a++;
+		c = 0;
+		while (!is_delim_func(str[a + c], d) && str[a + c])
+			c++;
+		q[b] = malloc((c + 1) * sizeof(char));
+		if (!q[b])
 		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
+			for (c = 0; c < b; c++)
+				free(q[c]);
+			free(q);
 			return (NULL);
 		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
+		for (m = 0; m < c; m++)
+			q[b][m] = str[a++];
+		q[b][m] = 0;
 	}
-	s[j] = NULL;
-	return (s);
+	q[b] = NULL;
+	return (q);
 }
 
 /**
- * **strtow2 - splits a string into words
+ * **strtow2 - a function that split a string into words
  * @str: the input string
  * @d: the delimeter
- * Return: a pointer to an array of strings, or NULL on failure
+ * Return: success: a pointer to an array of strings, otherwise NULL
  */
 char **strtow2(char *str, char d)
 {
