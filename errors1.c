@@ -62,12 +62,12 @@ int print_d(int input, int fd)
 	unsigned int abs, current;
 
 	if (fd == STDERR_FILENO)
-		__putchar = _eputchar;
+		__putchar = _putchar;
 	if (input < 0)
 	{
 		abs = -input;
 		__putchar('-');
-		count++;
+		co++;
 	}
 	else
 		abs = input;
@@ -79,7 +79,7 @@ int print_d(int input, int fd)
 			__putchar('0' + current / a);
 			co++;
 		}
-		current %= i;
+		current %= a;
 	}
 	__putchar('0' + current);
 	co++;
